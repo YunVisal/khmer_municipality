@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Go Webpage</title>
+</head>
+<body>
+    <p>Extract token</p>
+
+    <script>
+        const fragment = window.location.hash.substring(1);
+        const params = new URLSearchParams(fragment);
+        const accessToken = params.get('access_token');
+        const tokenType = params.get('token_type');
+        const now = new Date();
+        const expiredTime = parseInt(params.get('expires_in')) + now.getTime();
+
+        if(accessToken && tokenType && !isNaN(expiredTime)){
+            localStorage.setItem("access_token", accessToken);
+            localStorage.setItem("token_type", tokenType);
+            localStorage.setItem("expired_time", expiredTime);
+            window.location.replace("/")
+        }
+    </script>
+</body>
+</html>
